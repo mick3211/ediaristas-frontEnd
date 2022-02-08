@@ -30,6 +30,7 @@ export const HeaderLogo = styled('img')`
 
     ${({ theme }) => theme.breakpoints.up('md')} {
         height: 47px;
+        width: 200px;
     }
 `;
 
