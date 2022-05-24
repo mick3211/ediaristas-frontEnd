@@ -79,7 +79,7 @@ const VerificarProfissionais: React.FC = () => {
                                         sx={{ mt: 5 }}
                                     >
                                         ...e mais {diaristasRestantes}{' '}
-                                        {diaristas.length > 1
+                                        {diaristasRestantes > 1
                                             ? ' profissionais atendem'
                                             : ' profissional atende'}{' '}
                                         ao seu endereço

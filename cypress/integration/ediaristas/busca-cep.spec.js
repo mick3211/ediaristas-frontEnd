@@ -7,12 +7,12 @@ context('Busca pelo CEP', () => {
         const button = cy.get('button').contains(/buscar/i);
         button.should('be.disabled');
 
-        cy.get('#mui-1').type('12345678');
+        cy.get('#mui-1').type('57038485');
         button.should('not.be.disabled');
     });
 
     it('buscar cep', () => {
-        cy.get('#mui-1').type('01001000');
+        cy.get('#mui-1').type('57038485');
         cy.get('button')
             .contains(/buscar/i)
             .click();
