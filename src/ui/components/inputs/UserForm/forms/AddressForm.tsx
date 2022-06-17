@@ -6,8 +6,8 @@ import TextField from '../../TextField/TextField';
 import TextFieldMask from '../../TextFieldMask/TextFieldMask';
 import { AdressData } from '../UserForm.styled';
 
-export const AdressForm = () => {
-    const { control, errors, estados, opcoesCidades, addressState, register } =
+export const AddressForm = () => {
+    const { control, errors, estados, opcoesCidades, addressState } =
         useAddressForm();
 
     return (
@@ -64,7 +64,13 @@ export const AdressForm = () => {
                         disabled={addressState === 0}
                         noOptionsText="Nenhuma cidade com esse nome"
                         renderInput={(params) => (
-                            <TextField label="Cidade" {...params} />
+                            <TextField
+                                label="Cidade"
+                                {...params}
+                                InputLabelProps={{
+                                    required: false,
+                                }}
+                            />
                         )}
                     />
                 )}

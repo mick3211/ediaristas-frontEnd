@@ -5,6 +5,17 @@ export const ValidationService = {
     telefone(telefone = ''): boolean {
         return telefone.replace(/\D/g, '').length === 11;
     },
+    horarioDeAgendamento(data: string, hora: string): boolean {
+        const agora = Date.now(),
+            dataHora = new Date(data + 'T' + hora).getTime(),
+            diferenca = (dataHora - agora) / 1000 / 60 / 60, //em horas
+            minHoras = 48;
+
+        return diferenca > minHoras;
+    },
+    hora(hora = ''): boolean {
+        return /^([01][0-9]|2[0-3]):([0-5][0-9])$/.test(hora);
+    },
     cpf(cpf = ''): boolean {
         cpf = cpf.replace(/[^\d]+/g, '');
         if (cpf == '') return false;

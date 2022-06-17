@@ -52,7 +52,7 @@ export const useAddressForm = () => {
                     newAddress.bairro &&
                         setValue('endereco.bairro', newAddress.bairro);
                     newAddress.logradouro &&
-                        setValue('endereco.ogradouro', newAddress.logradouro);
+                        setValue('endereco.logradouro', newAddress.logradouro);
                 }
             });
         }
