@@ -1,3 +1,6 @@
+import { UserContext } from 'data/contexts/UserContext';
+import { TextFormatService } from 'data/services/TextFormatService';
+import { useContext } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import TextField from '../../TextField/TextField';
 import TextFieldMask from '../../TextFieldMask/TextFieldMask';
@@ -14,11 +17,13 @@ export const UserDataForm = ({ cadastro = false }: UserDataFormProps) => {
         formState: { errors },
     } = useFormContext();
 
+    const { user } = useContext(UserContext).userState;
+
     return (
         <UserData>
             <TextField
                 label="Nome completo"
-                defaultValue={''}
+                defaultValue={user.nome_completo}
                 style={{ gridArea: 'nome' }}
                 {...register('usuario.nome_completo')}
                 error={errors?.usuario?.nome_completo !== undefined}
@@ -26,7 +31,9 @@ export const UserDataForm = ({ cadastro = false }: UserDataFormProps) => {
             />
             <Controller
                 name="usuario.nascimento"
-                defaultValue={''}
+                defaultValue={TextFormatService.reverseDate(
+                    user.nascimento as string
+                )}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextFieldMask
@@ -41,7 +48,7 @@ export const UserDataForm = ({ cadastro = false }: UserDataFormProps) => {
             />
             <Controller
                 name="usuario.cpf"
-                defaultValue={''}
+                defaultValue={user.cpf}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextFieldMask
@@ -57,7 +64,7 @@ export const UserDataForm = ({ cadastro = false }: UserDataFormProps) => {
             />
             <Controller
                 name="usuario.telefone"
-                defaultValue={''}
+                defaultValue={user.telefone}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextFieldMask

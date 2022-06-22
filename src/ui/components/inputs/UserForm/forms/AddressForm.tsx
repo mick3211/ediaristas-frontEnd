@@ -7,14 +7,21 @@ import TextFieldMask from '../../TextFieldMask/TextFieldMask';
 import { AdressData } from '../UserForm.styled';
 
 export const AddressForm = () => {
-    const { control, errors, estados, opcoesCidades, addressState } =
-        useAddressForm();
+    const {
+        control,
+        errors,
+        estados,
+        opcoesCidades,
+        addressState,
+        user,
+        userAddres,
+    } = useAddressForm();
 
     return (
         <AdressData>
             <Controller
                 name="endereco.cep"
-                defaultValue={''}
+                defaultValue={userAddres.cep}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextFieldMask
@@ -29,7 +36,7 @@ export const AddressForm = () => {
             />
             <Controller
                 name="endereco.estado"
-                defaultValue={''}
+                defaultValue={userAddres.estado}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <Select
@@ -50,7 +57,7 @@ export const AddressForm = () => {
             />
             <Controller
                 name="endereco.cidade"
-                defaultValue={''}
+                defaultValue={userAddres.cidade}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <Autocomplete
@@ -77,7 +84,7 @@ export const AddressForm = () => {
             />
             <Controller
                 name="endereco.bairro"
-                defaultValue={''}
+                defaultValue={userAddres.bairro}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextField
@@ -91,7 +98,7 @@ export const AddressForm = () => {
             />
             <Controller
                 name="endereco.logradouro"
-                defaultValue={''}
+                defaultValue={userAddres.logradouro}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextField
@@ -104,22 +111,8 @@ export const AddressForm = () => {
                 )}
             />
             <Controller
-                name="endereco.bairro"
-                defaultValue={''}
-                control={control}
-                render={({ field: { ref, ...props } }) => (
-                    <TextField
-                        {...props}
-                        label="Bairro"
-                        style={{ gridArea: 'bairro' }}
-                        error={errors?.endereco?.bairro !== undefined}
-                        helperText={errors?.endereco?.bairro?.message}
-                    />
-                )}
-            />
-            <Controller
                 name="endereco.numero"
-                defaultValue={''}
+                defaultValue={userAddres.numero}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextField
@@ -133,7 +126,7 @@ export const AddressForm = () => {
             />
             <Controller
                 name="endereco.complemento"
-                defaultValue={''}
+                defaultValue={userAddres.complemento}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextField

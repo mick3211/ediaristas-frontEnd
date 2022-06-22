@@ -9,9 +9,10 @@ import {
     PagamentoFormDataInterface,
 } from 'data/@types/FormInterface';
 import { ServicoInterface } from 'data/@types/ServicoInterface';
+import { useApi } from '../useApi';
 
 export function useContratacao() {
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(1);
     const [hasLogin, setHasLogin] = useState(false);
     const [loginError, setLoginError] = useState('');
     const breadCrumbItems = [
@@ -19,28 +20,7 @@ export function useContratacao() {
         'Identificação',
         'Pagamento',
     ];
-    const servicos: ServicoInterface[] = [
-        {
-            id: 5,
-            nome: 'Limpeza comum',
-            icone: 'twf-cleaning-1',
-            horas_banheiro: 1,
-            horas_cozinha: 1,
-            horas_quarto: 1,
-            horas_quintal: 1,
-            horas_sala: 1,
-            horas_outros: 0,
-            qtd_horas: 5,
-            valor_minimo: 50,
-            valor_banheiro: 20,
-            valor_cozinha: 20,
-            valor_quarto: 20,
-            valor_quintal: 20,
-            valor_sala: 20,
-            valor_outros: 20,
-            porcentagem_comissao: 10,
-        },
-    ];
+    const servicos = useApi<ServicoInterface[]>('/api/servicos').data;
 
     const serviceForm = useForm<NovaDiariaFormDataInterface>({
         resolver: yupResolver(

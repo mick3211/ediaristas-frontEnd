@@ -1,4 +1,11 @@
-import { Box, Button, Paper, Typography } from '@mui/material';
+import {
+    Box,
+    Button,
+    CircularProgress,
+    Container,
+    Paper,
+    Typography,
+} from '@mui/material';
 import { useContratacao } from 'data/hooks/pages/useContratacao.page';
 import useIsMobile from 'data/hooks/useIsMobile';
 import React from 'react';
@@ -35,6 +42,14 @@ const Contratacao: React.FC = () => {
         hasLogin,
         loginError,
     } = useContratacao();
+
+    if (!servicos || servicos.length < 1) {
+        return (
+            <Container sx={{ textAlign: 'center', my: 10 }}>
+                <CircularProgress />
+            </Container>
+        );
+    }
 
     return (
         <div>
