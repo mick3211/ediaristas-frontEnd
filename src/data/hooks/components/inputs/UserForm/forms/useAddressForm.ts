@@ -43,7 +43,8 @@ export const useAddressForm = () => {
 
     useEffect(() => {
         const cep = (addressCep || '').replaceAll('_', '');
-        if (cep.length === 10) {
+
+        if (cep.length === 9) {
             LocationService.cep(cep).then((newAddress) => {
                 if (newAddress) {
                     newAddress.uf && setValue('endereco.estado', newAddress.uf);

@@ -1,18 +1,37 @@
 import '@styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect } from 'react';
-import { ThemeProvider } from '@mui/material';
+import { useContext, useEffect } from 'react';
+import { CircularProgress, Container, ThemeProvider } from '@mui/material';
 import theme from 'ui/themes/theme';
 import Header from 'ui/components/surfaces/Header/Header';
 import Footer from 'ui/components/surfaces/Footer/Footer';
 import { AppContainer } from '@styles/pages/_app.styled';
 import { MainProvider } from 'data/contexts/MainContext';
+import { privateRoutes, useRouterGuard } from 'data/hooks/useRouterGuard';
+import { UserContext } from 'data/contexts/UserContext';
+import { LoginService } from 'data/services/LoginService';
 
 function App({ Component, pageProps }: AppProps) {
+    const { userState } = useContext(UserContext);
+    const router = useRouterGuard(userState.user, userState.isLogging);
+
     useEffect(() => {
         document.querySelector('#jss-server-side')?.remove();
     }, []);
+
+    function canShow(): boolean {
+        if (privateRoutes.includes(router.pathname)) {
+            if (userState.isLogging) return false;
+            return userState.user.nome_completo.length > 0;
+        }
+        return true;
+    }
+
+    function onLogout() {
+        LoginService.logout();
+        window.location.reload();
+    }
 
     return (
         <>
@@ -23,8 +42,16 @@ function App({ Component, pageProps }: AppProps) {
             </Head>
             <ThemeProvider theme={theme}>
                 <AppContainer>
-                    <Header />
-                    <Component {...pageProps} />
+                    <Header user={userState.user} onLogout={onLogout} />
+                    <main>
+                        {canShow() ? (
+                            <Component {...pageProps} />
+                        ) : (
+                            <Container sx={{ textAlign: 'center', my: 10 }}>
+                                <CircularProgress />
+                            </Container>
+                        )}
+                    </main>
                     <Footer />
                 </AppContainer>
             </ThemeProvider>
@@ -41,4 +68,3 @@ const appProviderContainer: React.FC<AppProps> = (props) => {
 };
 
 export default appProviderContainer;
-

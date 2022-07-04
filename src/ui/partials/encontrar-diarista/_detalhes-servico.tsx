@@ -140,7 +140,7 @@ const DetalhesServico: React.FC<DetalhesServicoProps> = ({
                                 errors?.faxina?.data_atendimento !== undefined
                             }
                             helperText={
-                                errors?.faxina?.data_atendimento.message
+                                errors?.faxina?.data_atendimento?.message
                             }
                         />
                     )}
@@ -156,7 +156,7 @@ const DetalhesServico: React.FC<DetalhesServicoProps> = ({
                             mask="99:99"
                             label="Hora de início"
                             error={errors?.faxina?.hora_inicio !== undefined}
-                            helperText={errors?.faxina?.hora_inicio.message}
+                            helperText={errors?.faxina?.hora_inicio?.message}
                         />
                     )}
                 />
@@ -182,7 +182,7 @@ const DetalhesServico: React.FC<DetalhesServicoProps> = ({
                                         undefined
                                     }
                                     helperText={
-                                        errors?.faxina?.hora_termino.message
+                                        errors?.faxina?.hora_termino?.message
                                     }
                                 />
                             </div>

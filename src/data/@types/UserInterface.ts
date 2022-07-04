@@ -1,3 +1,5 @@
+import { ApiLinksInterface } from './ApiLinksInterface';
+
 export interface UserShortInformationInterface {
     nome_completo: string;
     foto_usuario?: string;
@@ -7,7 +9,9 @@ export interface UserShortInformationInterface {
 
 export interface UserInterface {
     id?: number;
+    links: ApiLinksInterface[];
     tipo_usuario: UserType;
+    password?: string;
     new_password?: string;
     password_confirmation?: string;
     last_login?: Date;

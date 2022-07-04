@@ -8,8 +8,11 @@ import {
 } from '@mui/material';
 import { useContratacao } from 'data/hooks/pages/useContratacao.page';
 import useIsMobile from 'data/hooks/useIsMobile';
-import React from 'react';
+import { BrowserService } from 'data/services/BrowserService';
+import { TextFormatService } from 'data/services/TextFormatService';
+import React, { useEffect } from 'react';
 import { FormProvider } from 'react-hook-form';
+import DataList from 'ui/components/data-display/DataList/DataList';
 import PageTitle from 'ui/components/data-display/PageTitle/PageTitle';
 import SideInformation from 'ui/components/data-display/SideInformation/SideInformation';
 import SafeEnvironment from 'ui/components/feedback/SafeEnvironment/SafeEnvironment';
@@ -26,22 +29,31 @@ import InformacoesPagamento from './_informacoes-pagamento';
 const Contratacao: React.FC = () => {
     const isMobile = useIsMobile();
     const {
-        step,
-        setStep,
-        breadCrumbItems,
-        serviceForm,
-        clientForm,
-        loginForm,
-        paymentForm,
-        onServiceFormSubmit,
-        onClientFormSubmit,
-        onLoginFormSubmit,
-        onPaymentFormSubmit,
-        servicos,
-        setHasLogin,
-        hasLogin,
-        loginError,
-    } = useContratacao();
+            step,
+            setStep,
+            breadCrumbItems,
+            serviceForm,
+            clientForm,
+            loginForm,
+            paymentForm,
+            onServiceFormSubmit,
+            onClientFormSubmit,
+            onLoginFormSubmit,
+            onPaymentFormSubmit,
+            servicos,
+            setHasLogin,
+            hasLogin,
+            loginError,
+            tamanhoCasa,
+            tipoLimpeza,
+            totalPrice,
+            podemosAtender,
+        } = useContratacao(),
+        dataAtendimento = serviceForm.watch('faxina.data_atendimento');
+
+    useEffect(() => {
+        BrowserService.scrollToTop();
+    }, [step]);
 
     if (!servicos || servicos.length < 1) {
         return (
@@ -58,6 +70,26 @@ const Contratacao: React.FC = () => {
                 items={breadCrumbItems}
                 selected={breadCrumbItems[step - 1]}
             />
+            {isMobile && [2, 3].includes(step) && (
+                <DataList
+                    header={
+                        <Typography color="primary" sx={{ fontWeight: 'thin' }}>
+                            O valor total do serviço é{' '}
+                            {TextFormatService.currency(totalPrice)}
+                        </Typography>
+                    }
+                    body={
+                        <>
+                            {tipoLimpeza?.nome}
+                            <br />
+                            Tamanho: {tamanhoCasa.join(', ')}
+                            <br />
+                            Data: {dataAtendimento}
+                        </>
+                    }
+                />
+            )}
+
             {step === 1 && (
                 <PageTitle title="Nos conte um pouco sobre o serviço!" />
             )}
@@ -85,6 +117,13 @@ const Contratacao: React.FC = () => {
                 />
             )}
 
+            {step === 3 && (
+                <PageTitle
+                    title="Informe os dados do cartão para pagamento"
+                    subtitle="Será feita uma reserva, mas o valor só será descontado quando você confirmar a presença do(a) diarista"
+                />
+            )}
+
             <UserFormContainer>
                 <PageFormContainer fullWidth={step === 4}>
                     <Paper sx={{ padding: 4 }}>
@@ -95,7 +134,11 @@ const Contratacao: React.FC = () => {
                                 )}
                                 hidden={step !== 1}
                             >
-                                <DetalhesServico servicos={servicos} />
+                                <DetalhesServico
+                                    servicos={servicos}
+                                    comodos={tamanhoCasa.length}
+                                    podemosAtender={podemosAtender}
+                                />
                             </form>
                         </FormProvider>
 
@@ -189,22 +232,22 @@ const Contratacao: React.FC = () => {
                             items={[
                                 {
                                     title: 'Tipo',
-                                    description: [''],
+                                    description: [tipoLimpeza.nome],
                                     icon: 'twf-check-circle',
                                 },
                                 {
                                     title: 'Tamanho',
-                                    description: [''],
+                                    description: tamanhoCasa,
                                     icon: 'twf-check-circle',
                                 },
                                 {
                                     title: 'Data',
-                                    description: [''],
+                                    description: [dataAtendimento as string],
                                     icon: 'twf-check-circle',
                                 },
                             ]}
                             footer={{
-                                text: 'R$80,00',
+                                text: TextFormatService.currency(totalPrice),
                                 icon: 'twf-credit-card',
                             }}
                         />

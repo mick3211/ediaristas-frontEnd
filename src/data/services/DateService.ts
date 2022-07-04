@@ -1,14 +1,24 @@
 export const DateService = {
+    addHours(startTime: string, hours: number): string {
+        let [hour, minute] = startTime.split(':').map(Number);
+        hour = Math.min(hour + hours, 23);
+
+        const newHour = hour.toString().padStart(2, '0');
+        const newMinute = minute.toString().padStart(2, '0');
+
+        return newHour + ':' + newMinute;
+    },
+
     minAdultBirthday(): Date {
         const date = new Date();
-        date.setFullYear(date.getFullYear() - 18);
+        date.setFullYear(date.getFullYear() - 100);
 
         return date;
     },
 
     maxAdultBirthday(): Date {
         const date = new Date();
-        date.setFullYear(date.getFullYear() + 100);
+        date.setFullYear(date.getFullYear() - 18);
 
         return date;
     },

@@ -17,9 +17,11 @@ export interface LoginFormDataInterface {
 }
 
 export interface PagamentoFormDataInterface {
-    nome_cartao: string;
-    numero_cartao: string;
-    codigo: string;
-    validade: string;
-    pagamento_recusado?: boolean;
+    pagamento: {
+        nome_cartao: string;
+        numero_cartao: string;
+        codigo: string;
+        validade: string;
+        pagamento_recusado?: boolean;
+    };
 }

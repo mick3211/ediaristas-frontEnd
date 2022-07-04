@@ -19,21 +19,17 @@ export const PaymentForm = () => {
     return (
         <PaymentData>
             <Controller
-                name="pagamento.numero_do_cartao"
+                name="pagamento.numero_cartao"
                 defaultValue={''}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
                     <TextFieldMask
                         {...props}
-                        mask="999 999 999 999"
+                        mask="9999 9999 9999 9999"
                         label="Número do cartão"
                         style={{ gridArea: 'numero' }}
-                        error={
-                            errors?.pagamento?.numero_do_cartao !== undefined
-                        }
-                        helperText={
-                            errors?.pagamento?.numero_do_cartao?.message
-                        }
+                        error={errors?.pagamento?.numero_cartao !== undefined}
+                        helperText={errors?.pagamento?.numero_cartao?.message}
                     />
                 )}
             />
@@ -48,7 +44,7 @@ export const PaymentForm = () => {
             />
 
             <Controller
-                name="pagamento.pagamento_validade"
+                name="pagamento.validade"
                 defaultValue={''}
                 control={control}
                 render={({ field: { ref, ...props } }) => (
@@ -57,12 +53,8 @@ export const PaymentForm = () => {
                         mask="99/99"
                         label="Validade"
                         style={{ gridArea: 'validade' }}
-                        error={
-                            errors?.pagamento?.pagamento_validade !== undefined
-                        }
-                        helperText={
-                            errors?.pagamento?.pagamento_validade?.message
-                        }
+                        error={errors?.pagamento?.validade !== undefined}
+                        helperText={errors?.pagamento?.validade?.message}
                     />
                 )}
             />

@@ -60,7 +60,7 @@ export const LocationService = {
     async cep(cep: string): Promise<CepResponseInterface | undefined> {
         try {
             const response = await ApiService.get<CepResponseInterface>(
-                'api/endereco',
+                'api/enderecos',
                 {
                     params: {
                         cep: cep.replace(/\D/g, ''),

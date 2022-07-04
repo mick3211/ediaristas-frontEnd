@@ -5,14 +5,19 @@ import PageTitle from 'ui/components/data-display/PageTitle/PageTitle';
 import UserInformation from 'ui/components/data-display/UserInformation/UserInformation';
 import SafeEnvironment from 'ui/components/feedback/SafeEnvironment/SafeEnvironment';
 import TextFieldMask from 'ui/components/inputs/TextFieldMask/TextFieldMask';
-
 import {
     FormElementContainer,
     ProfissionaisPaper,
     ProfissionaisContainer,
 } from './_verificar-profissionais.styled';
 
-const VerificarProfissionais: React.FC = () => {
+interface VerificarProfissionaisProps {
+    onContratarProfissional: () => void;
+}
+
+const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = ({
+    onContratarProfissional,
+}) => {
     const {
         cep,
         setCep,
@@ -39,7 +44,7 @@ const VerificarProfissionais: React.FC = () => {
                         label="Digite seu CEP"
                         fullWidth
                         value={cep}
-                        onChange={ev => setCep(ev.target.value)}
+                        onChange={(ev) => setCep(ev.target.value)}
                     />
                     {error && <Typography color={'error'}>{error}</Typography>}
                     <Button
@@ -88,6 +93,7 @@ const VerificarProfissionais: React.FC = () => {
                                         variant="contained"
                                         color="secondary"
                                         sx={{ mt: 5 }}
+                                        onClick={onContratarProfissional}
                                     >
                                         Contratar um(a) profissional
                                     </Button>
