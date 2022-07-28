@@ -33,4 +33,11 @@ export const DateService = {
         }
         return value;
     },
+
+    getTimeFromDate(date: string): string {
+        const [_date, time] = date.split('T');
+        const [hours, minutes, ..._others] = time.split(':');
+
+        return `${hours}:${minutes}`;
+    },
 };

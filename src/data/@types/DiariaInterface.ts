@@ -5,6 +5,7 @@ export interface DiariaInterface {
     id?: number;
     links: ApiLinksInterface[];
     cliente: UserInterface;
+    diarista: UserInterface;
     data_atendimento: string | Date;
     hora_inicio?: string;
     hora_termino?: string;
@@ -27,4 +28,22 @@ export interface DiariaInterface {
     observacoes?: string;
     servico: number;
     nome_servico: string;
+    status?: DiariaStatus;
 }
+
+export enum DiariaStatus {
+    SEM_PAGAMENTO = 1,
+    PAGO = 2,
+    CONFIRMADO = 3,
+    CONCLUIDO = 4,
+    CANCELADO = 5,
+    AVALIADO = 6,
+    TRANSFERIDO = 7,
+}
+
+export type TextColor =
+    | 'success'
+    | 'error'
+    | 'warning'
+    | 'primary'
+    | 'secondary';
