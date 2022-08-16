@@ -21,3 +21,5 @@ export * from './forms/PaymentForm';
 export * from './forms/PictureForm';
 export * from './forms/UserDataForm';
 export * from './forms/LoginForm';
+export * from './forms/FinancialForm';
+export * from './forms/CitiesForm';
