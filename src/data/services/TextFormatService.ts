@@ -20,6 +20,13 @@ export const TextFormatService = {
         return date;
     },
 
+    dateTime(date = ''): string {
+        const dia = this.reverseDate(date);
+        const hora = date.substring(11, 16);
+
+        return `${dia} às ${hora}h`;
+    },
+
     currency(price = 0): string {
         if (isNaN(price)) {
             price = 0;
