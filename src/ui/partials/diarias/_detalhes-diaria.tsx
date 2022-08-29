@@ -14,7 +14,7 @@ import {
     JobTitle,
     UserCard,
     UserTitle,
-} from './_minhas-diarias.styled';
+} from './_detalhes-diaria.styled';
 
 // import { Component } from './_detalhes-diaria.styled';
 

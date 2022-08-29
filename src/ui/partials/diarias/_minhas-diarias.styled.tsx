@@ -1,62 +1,22 @@
 import { styled } from '@mui/material/styles';
-import { Paper, Typography } from '@mui/material';
+// import { } from '@mui/material';
 
-export const CardsContainer = styled('div')`
+export const RatingBox = styled('div')`
     display: grid;
-    grid-template-columns: 1fr;
-    margin-bottom: ${({ theme }) => theme.spacing(2)};
-    gap: ${({ theme }) => theme.spacing(2)};
+    grid-template-columns: 100px 1fr;
+    gap: ${({ theme }) => theme.spacing(1, 2)};
+    margin: ${({ theme }) => theme.spacing(4, 0)};
 
     ${({ theme }) => theme.breakpoints.up('md')} {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            'details details'
-            'houseclener client';
-        gap: ${({ theme }) => theme.spacing(3)};
-    }
-`;
-
-export const JobDetails = styled(Paper)`
-    ${({ theme }) => theme.palette.text.secondary};
-
-    ${({ theme }) => theme.breakpoints.up('md')} {
-        grid-area: details;
-        padding: ${({ theme }) => theme.spacing(4)};
-    }
-
-    ${({ theme }) => theme.breakpoints.down('md')} {
-        box-shadow: none;
-        margin-bottom: ${({ theme }) => theme.spacing(4)};
-    }
-`;
-export const JobTitle = styled(Typography)`
-    color: ${({ theme }) => theme.palette.primary.main};
-    font-weight: bold;
-    margin-bottom: ${({ theme }) => theme.spacing(4)};
-
-    ${({ theme }) => theme.breakpoints.down('md')} {
-        display: none;
-    }
-`;
-
-export const UserCard = styled(Paper)`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.spacing()};
-    padding: ${({ theme }) => theme.spacing(4)};
-
-    ${({ theme }) => theme.breakpoints.down('md')} {
-        box-shadow: none;
-        padding: 0;
-    }
-`;
-export const UserTitle = styled(Typography)`
-    color: ${({ theme }) => theme.palette.primary.main};
-    font-weight: bold;
-
-    ${({ theme }) => theme.breakpoints.down('md')} {
-        background-color: ${({ theme }) => theme.palette.grey[100]};
         padding: ${({ theme }) => theme.spacing(3)};
-        margin: ${({ theme }) => '0 ' + theme.spacing(-3)};
+        border: 1px solid ${({ theme }) => theme.palette.grey[200]};
+
+        > :nth-child(odd) {
+            justify-self: end;
+        }
+    }
+
+    ${({ theme }) => theme.breakpoints.down('md')} {
+        grid-template-columns: auto;
     }
 `;

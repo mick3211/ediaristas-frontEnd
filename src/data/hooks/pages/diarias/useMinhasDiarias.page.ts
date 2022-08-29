@@ -10,6 +10,7 @@ export function useMinhasDiarias() {
     const [diariaConfirmar, setDiariaConfirmar] = useState(
         {} as DiariaInterface
     );
+    const [diariaAvaliar, setDiariaAvaliar] = useState({} as DiariaInterface);
     const isMobile = useIsMobile();
     const { diariaState } = useContext(DiariaContext);
     const { diarias } = diariaState;
@@ -25,11 +26,32 @@ export function useMinhasDiarias() {
         return LinkResolver(diaria.links, 'confirmar_diarista') !== undefined;
     }
 
+    function podeAvaliar(diaria: DiariaInterface): boolean {
+        return LinkResolver(diaria.links, 'avaliar_diaria') !== undefined;
+    }
+
     async function confirmarDiarista(diaria: DiariaInterface) {
         ApiServiceHateoas(diaria.links, 'confirmar_diarista', async (req) => {
             try {
                 await req();
                 setDiariaConfirmar({} as DiariaInterface);
+                atualizarListaDiarias();
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    }
+
+    async function avaliarDiaria(
+        diaria: DiariaInterface,
+        avaliacao: { descricao: string; nota: number }
+    ) {
+        ApiServiceHateoas(diaria.links, 'avaliar_diaria', async (req) => {
+            try {
+                await req({
+                    data: avaliacao,
+                });
+                setDiariaAvaliar({} as DiariaInterface);
                 atualizarListaDiarias();
             } catch (e) {
                 console.error(e);
@@ -53,5 +75,9 @@ export function useMinhasDiarias() {
         setDiariaConfirmar,
         podeConfirmar,
         confirmarDiarista,
+        diariaAvaliar,
+        setDiariaAvaliar,
+        podeAvaliar,
+        avaliarDiaria,
     };
 }

@@ -20,15 +20,15 @@ export const JobInformationContainer = styled('div')`
 
 export const JobDataContainer = styled('div')`
     ${({ theme }) => theme.breakpoints.down('md')} {
-        display: none;
+        strong {
+            font-weight: normal;
+        }
     }
 `;
 
 export const JobInformationIcon = styled('i')`
     font-size: 24px;
     ${({ theme }) => theme.breakpoints.down('md')} {
-        strong {
-            font-weight: normal;
-        }
+        display: none;
     }
 `;
