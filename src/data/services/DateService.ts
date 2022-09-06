@@ -40,4 +40,10 @@ export const DateService = {
 
         return `${hours}:${minutes}`;
     },
+
+    getDifferenceHours(datetime: Date): number {
+        const now = Date.now();
+        const futureDate = datetime.getTime();
+        return (futureDate - now) / 1000 / 60 / 60;
+    },
 };

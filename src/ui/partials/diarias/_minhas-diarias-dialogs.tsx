@@ -24,6 +24,9 @@ interface RatingDialogProps extends Omit<DialogProps, 'onConfirm'> {
         avaliacao: { descricao: string; nota: number }
     ) => void;
 }
+interface CancelDialogProps extends Omit<DialogProps, 'onConfirm'> {
+    onConfirm: (diaria: DiariaInterface, motivo: string) => void;
+}
 
 const JobBox: React.FC<{ diaria: DiariaInterface }> = ({ diaria }) => {
     return (
@@ -158,6 +161,79 @@ export const RatingDialog: React.FC<RatingDialogProps> = ({
                     onChange={(ev) => setDescricao(ev.target.value)}
                 />
             </RatingBox>
+
+            <Snackbar
+                open={error.length > 0}
+                onClose={() => setError('')}
+                autoHideDuration={4000}
+            >
+                <Alert severity="error">{error}</Alert>
+            </Snackbar>
+        </Dialog>
+    );
+};
+
+export const CancelDialog: React.FC<CancelDialogProps> = ({
+    diaria,
+    onCancel,
+    onConfirm,
+    children,
+}) => {
+    const [motivo, setMotivo] = useState('');
+    const [error, setError] = useState('');
+    const {
+        userState: { user },
+    } = useContext(UserContext);
+
+    function tentarCancelar() {
+        if (motivo.length > 5) {
+            onConfirm(diaria, motivo);
+        } else {
+            setError('Por favor, escreva um motivo para o cancelamento');
+        }
+    }
+
+    function getAviso(): string {
+        if (user.id) {
+            if (user.tipo_usuario === UserType.Diarista)
+                return 'Ao cancelar uma diária, você pode ser penalizado(a) com a diminuição da sua reputação. Quanto menor a sua reputação, menor a chance de ser selecionado(a) para as próximas diárias. O cancelamento de diárias deve ser feito somente em situações de excessão';
+            if (
+                DateService.getDifferenceHours(
+                    new Date(diaria.data_atendimento)
+                ) < 24
+            )
+                return 'Ao cancelar a diária, devido à proximidade com o horário agendado do serviço, será cobrada uma multa de 50% sobre o valor da diária. O cancelamento de diárias deve ser feito somente em situações de excessão.';
+            return 'Ao cancelar a diária, o(a) profissional contratado(a) será prejudicado(a)... :`(';
+        }
+        return '';
+    }
+
+    return (
+        <Dialog
+            isOpen={true}
+            onClose={onCancel}
+            onConfirm={tentarCancelar}
+            title="Cancelar diária?"
+            subtitle="Tem certeza que deseja cancelar a diária abaixo?"
+        >
+            <JobBox diaria={diaria} />
+
+            <TextField
+                label="Digite aqui o motivo do cancelamento"
+                multiline
+                fullWidth
+                rows={5}
+                value={motivo}
+                onChange={(ev) => setMotivo(ev.target.value)}
+            />
+
+            <Typography
+                sx={{ py: 2 }}
+                variant="subtitle2"
+                color="textSecondary"
+            >
+                {getAviso()}
+            </Typography>
 
             <Snackbar
                 open={error.length > 0}
