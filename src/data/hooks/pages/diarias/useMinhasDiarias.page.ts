@@ -1,9 +1,9 @@
-import { DiariaInterface } from 'data/@types/DiariaInterface';
+import { DiariaInterface, DiariaStatus } from 'data/@types/DiariaInterface';
 import { DiariaContext } from 'data/contexts/DiariasContext';
 import useIsMobile from 'data/hooks/useIsMobile';
 import { usePagination } from 'data/hooks/usePagination.hook';
 import { ApiServiceHateoas, LinkResolver } from 'data/services/ApiService';
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { mutate } from 'swr';
 
 export function useMinhasDiarias() {
@@ -12,12 +12,21 @@ export function useMinhasDiarias() {
     );
     const [diariaAvaliar, setDiariaAvaliar] = useState({} as DiariaInterface);
     const [diariaCancelar, setDiariaCancelar] = useState({} as DiariaInterface);
+    const [filtro, setFiltro] = useState('pendentes');
     const isMobile = useIsMobile();
     const { diariaState } = useContext(DiariaContext);
     const { diarias } = diariaState;
+    const filteredData = useMemo(
+        () => filtrarDiarias(diarias, filtro),
+        [diarias, filtro]
+    );
     const { currentPage, itemsPerPage, setCurrentPage, totalPages } =
-        usePagination(diarias, 5);
-    const filteredData = diarias;
+        usePagination(filteredData, 5);
+
+    function alterarFiltro(filtro: string) {
+        setFiltro(filtro);
+        setCurrentPage(1);
+    }
 
     function podeVisualizar(diaria: DiariaInterface): boolean {
         return LinkResolver(diaria.links, 'self') !== undefined;
@@ -82,6 +91,32 @@ export function useMinhasDiarias() {
         mutate('lista_diarias');
     }
 
+    function filtrarDiarias(diarias: DiariaInterface[], filtro: string) {
+        return diarias.filter((diaria) => {
+            const avaliada = [DiariaStatus.AVALIADO].includes(
+                diaria.status as DiariaStatus
+            );
+            const cancelada = [
+                DiariaStatus.CANCELADO,
+                DiariaStatus.SEM_PAGAMENTO,
+            ].includes(diaria.status as DiariaStatus);
+            const pendente = [
+                DiariaStatus.PAGO,
+                DiariaStatus.CONFIRMADO,
+                DiariaStatus.CONCLUIDO,
+            ].includes(diaria.status as DiariaStatus);
+
+            switch (filtro) {
+                case 'avaliadas':
+                    return avaliada;
+                case 'pendentes':
+                    return pendente;
+                case 'canceladas':
+                    return cancelada;
+            }
+        });
+    }
+
     return {
         isMobile,
         currentPage,
@@ -102,5 +137,7 @@ export function useMinhasDiarias() {
         setDiariaCancelar,
         podeCancelar,
         cancelarDiaria,
+        filtro,
+        alterarFiltro,
     };
 }
