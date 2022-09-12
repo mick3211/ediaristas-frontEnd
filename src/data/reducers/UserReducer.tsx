@@ -29,7 +29,7 @@ export const initialState = {
         numero: '',
     } as EnderecoInterface,
     adressList: [] as CidadeInterface[],
-    isLogging: false,
+    isLogging: true,
 };
 
 export type InitialStateType = typeof initialState;
