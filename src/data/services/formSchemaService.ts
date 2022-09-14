@@ -22,6 +22,35 @@ export const FormSchemaService = {
             })
             .defined();
     },
+    Contact() {
+        return yup
+            .object()
+            .shape({
+                usuario: yup.object().shape({
+                    email: yup.string().email('E-mail inválido'),
+                    password: yup
+                        .string()
+                        .nullable()
+                        .default(undefined)
+                        .notRequired(),
+                    new_password: yup
+                        .string()
+                        .nullable()
+                        .default(undefined)
+                        .notRequired(),
+                    password_confirmation: yup
+                        .string()
+                        .nullable()
+                        .default(undefined)
+                        .notRequired()
+                        .oneOf(
+                            [yup.ref('password_confirmation'), null],
+                            'As senhas devem ser iguais'
+                        ),
+                }),
+            })
+            .defined();
+    },
     payment() {
         return yup
             .object()
