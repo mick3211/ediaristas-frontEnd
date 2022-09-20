@@ -16,13 +16,13 @@ export const FooterContainer = styled('footer')`
     margin-top: auto;
 `;
 
-export const FooterTitle = styled(props => {
+export const FooterTitle = styled((props) => {
     return <Typography variant="body2" component="h2" {...props} />;
 })`
     font-weight: bold;
 `;
 
-export const FooterListItem = styled(props => {
+export const FooterListItem = styled((props) => {
     return <ListItem disableGutters {...props} />;
 })``;
 
@@ -53,7 +53,7 @@ export const AppList = styled('ul')`
     gap: ${({ theme }) => theme.spacing()};
     list-style-type: none;
     padding: 0;
-    margin: ${({ theme }) => theme.spacing(2) + ' 0 ' + theme.spacing(3)}};
+    margin: ${({ theme }) => theme.spacing(2) + ' 0 ' + theme.spacing(3)};
 
     img {
         width: 112px;
@@ -66,7 +66,7 @@ export const FooterSocialList = styled(List)`
     grid-gap: ${({ theme }) => theme.spacing(1.5)};
 `;
 
-export const SocialButton = styled((props: LinkProps) => (
+export const SocialButton = styled(({ ref, ...props }: LinkProps) => (
     <Link
         component={IconButton}
         target={'_blank'}
